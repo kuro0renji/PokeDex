@@ -19,9 +19,9 @@ class PokemonDetailVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        pokedexID.text = "#\(pokemon.pokedexID)"
-        topNameLbl.text = pokemon.name.capitalized
-        centerNameLbl.text = pokemon.name.uppercased()
+//        pokedexID.text = "#\(pokemon.pokedexID)"
+//        topNameLbl.text = pokemon.name.capitalized
+//        centerNameLbl.text = pokemon.name.uppercased()
         
     }
 
