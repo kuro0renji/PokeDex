@@ -9,10 +9,16 @@
 import UIKit
 
 class PokemonDetailVC: UIViewController {
+    
+    var pokemon: Pokemon!
+    
+    @IBOutlet weak var pokedexID: UILabel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        pokedexID.text = "#\(pokemon.pokedexID)"
+        
     }
 
 }
