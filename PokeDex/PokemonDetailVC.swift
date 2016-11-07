@@ -13,11 +13,15 @@ class PokemonDetailVC: UIViewController {
     var pokemon: Pokemon!
     
     @IBOutlet weak var pokedexID: UILabel!
+    @IBOutlet weak var topNameLbl: UILabel!
+    @IBOutlet weak var centerNameLbl: UILabel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         pokedexID.text = "#\(pokemon.pokedexID)"
+        topNameLbl.text = pokemon.name.capitalized
+        centerNameLbl.text = pokemon.name.uppercased()
         
     }
 
