@@ -20,7 +20,31 @@ class Pokemon {
     private var _weight: String!
     private var _attack: String!
     private var _nextEvolutionTxt: String!
+    private var _nextEvolutionName: String!
+    private var _nextEvolutionID: String!
+    private var _nextEvolutionLevel: String!
     private var _pokemonURL: String!
+    
+    var nextEvolutionLevel: String {
+        if _nextEvolutionLevel == nil {
+            _nextEvolutionLevel = ""
+        }
+        return _nextEvolutionLevel
+    }
+    
+    var nextEvolutionID: String {
+        if _nextEvolutionID == nil {
+            _nextEvolutionID = ""
+        }
+        return _nextEvolutionID
+    }
+    
+    var nextEvolutionName: String {
+        if _nextEvolutionName == nil {
+            _nextEvolutionName = ""
+        }
+        return _nextEvolutionName
+    }
     
     var description: String {
         if _description == nil {
@@ -132,7 +156,9 @@ class Pokemon {
                     self._type = ""
                 }
                 
+                // Description
                 if let descriptionArray = dict["descriptions"] as? [Dictionary<String, String>], descriptionArray.count > 0 {
+                    
                     if let url = descriptionArray[0]["resource_uri"] {
                         
                         let descriptionURL = "\(BASE_URL)\(url)"
@@ -152,10 +178,46 @@ class Pokemon {
                             completed()
                         }
                     }
+                    
                 } else {
+                    
                     self._description = ""
+                    
                 }
                 
+                // Next Evolutions
+                if let evolutions = dict["evolutions"] as? [Dictionary<String, AnyObject>], evolutions.count > 0 {
+                    
+                    if let nextEvolutionName = evolutions[0]["to"] as? String {
+                        
+                        // Only keep going if it's not mega evolution
+                        if nextEvolutionName.range(of: "mega") == nil {
+                            
+                            self._nextEvolutionName = nextEvolutionName
+                            
+                            if let uri = evolutions[0]["resource_uri"] as? String {
+                                
+                                let newString = uri.replacingOccurrences(of: "/api/v1/pokemon/", with: "")
+                                let nextEvolutionID = newString.replacingOccurrences(of: "/", with: "")
+                                
+                                self._nextEvolutionID = nextEvolutionID
+                                
+                            }
+                            
+                            if let levelExist = evolutions[0]["level"] {
+                                
+                                if let level = levelExist as? Int {
+                                    self._nextEvolutionLevel = "\(level)"
+                                }
+                                
+                            } else {
+                                
+                                self._nextEvolutionLevel = ""
+                                
+                            }
+                        }
+                    }
+                }
             }
             completed()
         }
